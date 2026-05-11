@@ -1,0 +1,10 @@
+# Runtime dependencies for Dialogue Reviewer.
+# Unpinned during early development; run `pip freeze > requirements.txt`
+# once your venv is stable to lock exact versions before publishing.
+
+anthropic
+requests
+pandas
+openpyxl
+python-dotenv
+jinja2
