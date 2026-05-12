@@ -39,6 +39,9 @@ ehthumbs.db
 .DS_Store
 desktop.ini
 
+#Claude
+.claude/settings.local.json
+
 # Project output (uncomment / customise as you need)
 # output/
 # reports/
