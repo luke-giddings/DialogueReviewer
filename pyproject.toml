@@ -1,0 +1,12 @@
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+extend-select = [
+    "N",    # pep8-naming
+    "B",    # flake8-bugbear — likely-bug patterns
+    "I",    # isort — import ordering
+    "UP",   # pyupgrade — modernise syntax for your Python version
+    "SIM",  # flake8-simplify — suggest cleaner equivalents
+    "RUF",  # Ruff-specific rules
+]

@@ -4,11 +4,14 @@ A Python CLI tool that reviews game dialogue lines for character-voice consisten
 
 ## Overview
 
-Game projects often accumulate thousands of dialogue lines across multiple writers, contractors, and localisation passes. Keeping each character's voice consistent — their register, vocabulary, rhythm, speech patterns — becomes hard to do by eye. Dialogue Reviewer reads dialogue from a Gridly project or a local CSV/XLSX file, reviews each line against a per-character "voice bible" using Claude, and produces a filterable HTML report of issues.
+Game projects often accumulate thousands of dialogue lines across multiple writers, contractors, and localisation passes. Keeping each character's voice consistent — their register, vocabulary, rhythm, speech patterns — becomes hard to do by eye. Dialogue Reviewer reads dialogue from a Gridly project or a local CSV/XLSX/JSON file, reviews each line against a per-character "voice bible" using Claude, and produces a filterable HTML report of issues.
+
+## Features (implemented)
+
+- Input from Gridly REST API or local CSV / XLSX / JSON files
 
 ## Features (planned)
 
-- Input from Gridly REST API or local CSV / XLSX files
 - Claude-generated character bibles, output as editable JSON so writers can review and refine before a full run
 - Per-line review with surrounding context, returning structured severity / category / explanation
 - Self-contained HTML report, filterable by character, severity, and category
@@ -22,7 +25,7 @@ In active development. Not yet production-ready.
 
 - Python 3.13
 - An Anthropic API key (for Claude integration)
-- A Gridly API key (only if using the Gridly reader)
+- A Gridly API key and View ID (only if wanting to import dialogue from Gridly)
 
 ## Setup
 
@@ -47,7 +50,7 @@ copy .env.example .env          # Windows
 
 ## Usage
 
-CLI is still being built — usage instructions will land here once `main.py` is in place.
+CLI is still being built — usage instructions will land here once we are at that stage of the project. Currently `main.py` is just used for testing the importers are working as expected.
 
 ## Licence
 

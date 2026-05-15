@@ -1,0 +1,11 @@
+id,character,text_en,text_it,game_area,chapter,scene,game_feature
+line_001,Mayor Halsey,"Welcome, travellers. Frontier hospitality requires that we... discuss arrangements.","Benvenuti, viaggiatori. L'ospitalità della Frontiera richiede che noi... discutiamo gli accordi.",Frontier,Ch01,Market,MainQuest
+line_002,Marlow,"Get to the point.","Vai al dunque.",Frontier,Ch01,Market,MainQuest
+line_003,Cora,"What he means is, we'd be grateful for somewhere to rest.","Quello che vuole dire è che saremmo grati di avere un posto dove riposare.",Frontier,Ch01,Market,MainQuest
+line_004,Mayor Halsey,"Of course. Of course. There are, naturally, certain... considerations.","Certo. Certo. Ci sono, naturalmente, certe... considerazioni.",Frontier,Ch01,Market,MainQuest
+line_005,Marlow,"Money.","Soldi.",Frontier,Ch01,Market,MainQuest
+line_006,Cora,"We can pay. Within reason.","Possiamo pagare. Entro limiti ragionevoli.",Frontier,Ch01,Market,MainQuest
+line_007,Cora,"Do you think he'll let us stay?","Pensi che ci lascerà restare?",Frontier,Ch01,Camp,MainQuest
+line_008,Marlow,"He'll let anyone stay who can pay.","Lascerà restare chiunque possa pagare.",Frontier,Ch01,Camp,MainQuest
+line_009,Cora,"That's not the same as being welcome.","Non è lo stesso che essere benvenuti.",Frontier,Ch01,Camp,MainQuest
+line_010,Marlow,"No. But it's enough.","No. Ma basta.",Frontier,Ch01,Camp,MainQuest

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "line_001",
+    "character": "Mayor Halsey",
+    "translations": {
+      "en": "Welcome, travellers. Frontier hospitality requires that we... discuss arrangements.",
+      "it": "Benvenuti, viaggiatori. L'ospitalità della Frontiera richiede che noi... discutiamo gli accordi."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_002",
+    "character": "Marlow",
+    "translations": {
+      "en": "Get to the point.",
+      "it": "Vai al dunque."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_003",
+    "character": "Cora",
+    "translations": {
+      "en": "What he means is, we'd be grateful for somewhere to rest.",
+      "it": "Quello che vuole dire è che saremmo grati di avere un posto dove riposare."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_004",
+    "character": "Mayor Halsey",
+    "translations": {
+      "en": "Of course. Of course. There are, naturally, certain... considerations.",
+      "it": "Certo. Certo. Ci sono, naturalmente, certe... considerazioni."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_005",
+    "character": "Marlow",
+    "translations": {
+      "en": "Money.",
+      "it": "Soldi."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_006",
+    "character": "Cora",
+    "translations": {
+      "en": "We can pay. Within reason.",
+      "it": "Possiamo pagare. Entro limiti ragionevoli."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Market",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_007",
+    "character": "Cora",
+    "translations": {
+      "en": "Do you think he'll let us stay?",
+      "it": "Pensi che ci lascerà restare?"
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Camp",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_008",
+    "character": "Marlow",
+    "translations": {
+      "en": "He'll let anyone stay who can pay.",
+      "it": "Lascerà restare chiunque possa pagare."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Camp",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_009",
+    "character": "Cora",
+    "translations": {
+      "en": "That's not the same as being welcome.",
+      "it": "Non è lo stesso che essere benvenuti."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Camp",
+    "game_feature": "MainQuest"
+  },
+  {
+    "id": "line_010",
+    "character": "Marlow",
+    "translations": {
+      "en": "No. But it's enough.",
+      "it": "No. Ma basta."
+    },
+    "game_area": "Frontier",
+    "chapter": "Ch01",
+    "scene": "Camp",
+    "game_feature": "MainQuest"
+  }
+]

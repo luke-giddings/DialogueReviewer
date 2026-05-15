@@ -5,7 +5,9 @@
 anthropic
 requests
 pandas
+pandas-stubs
 openpyxl
 python-dotenv
 jinja2
 ruff
+
