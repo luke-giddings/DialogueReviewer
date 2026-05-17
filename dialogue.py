@@ -15,13 +15,13 @@ import _type_helpers
 @dataclass
 class DialogueLine:
     """
-    A single dialogue line containing all the information associated with it: character speaking, tranlations and pathing information.
+    A single dialogue line containing all the information associated with it: character speaking, translations and path information.
     """
 
     character: str = ""
     translations: dict[str, str] = field(default_factory=dict[str, str])  # Lang -> Text
 
-    # Pathing Info
+    # Path Info
     id: str = ""
     game_area: str = ""
     chapter: str = ""
@@ -38,10 +38,10 @@ class DialogueLine:
             The new dialogue line.
         """
         translations: dict[str, str] = {}
-        for namedfield in tuple_line._fields:
-            if namedfield.startswith("text_"):
-                lang_id = namedfield[len("text_") :]
-                translations[lang_id] = getattr(tuple_line, namedfield)
+        for named_field in tuple_line._fields:
+            if named_field.startswith("text_"):
+                lang_id = named_field[len("text_") :]
+                translations[lang_id] = getattr(tuple_line, named_field)
 
         return cls(
             character=tuple_line.character,

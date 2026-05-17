@@ -14,7 +14,7 @@ import pandas as pd
 
 import _type_helpers
 from _gridly_socket import GridlySocket
-from dialogue_line import DialogueLine, is_valid_from_dict
+from dialogue import DialogueLine, is_valid_from_dict
 
 GRIDLY_COLUMN_CHARACTER: Final[str] = "column_CharacterName"
 GRIDLY_COLUMN_LANG_PREFIX: Final[tuple[str, ...]] = ("src_", "tg_")
