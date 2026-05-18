@@ -33,7 +33,7 @@ class GridlySocket:
     def __init__(self, view_id: str, api_key: str):
         self._view_id: str = view_id
         self._gridly_api_key: Final[str] = api_key
-        self._default_fullaccess_header: Final[dict[str, str]] = {
+        self._default_api_header: Final[dict[str, str]] = {
             "Content-Type": "application/json",
             "Authorization": f"ApiKey {self._gridly_api_key}",
         }
@@ -65,7 +65,7 @@ class GridlySocket:
             debug_url = f"{self._api_endpoint}/{self._view_id}/records?page={page_string}"
 
             try:
-                response = requests.get(url, headers=self._default_fullaccess_header, timeout=REQUEST_TIMEOUT_SEC)
+                response = requests.get(url, headers=self._default_api_header, timeout=REQUEST_TIMEOUT_SEC)
             except requests.RequestException as e:
                 logger.error("%s: %s", debug_url, e)
                 return (False, None)
@@ -115,7 +115,7 @@ class GridlySocket:
             debug_url = url = f"{self._api_endpoint}/{self._view_id}"
 
         try:
-            response = requests.get(url, headers=self._default_fullaccess_header, timeout=REQUEST_TIMEOUT_SEC)
+            response = requests.get(url, headers=self._default_api_header, timeout=REQUEST_TIMEOUT_SEC)
         except requests.RequestException as e:
             logger.error("%s: %s", debug_url, e)
             return (False, None)
@@ -149,9 +149,7 @@ class GridlySocket:
         url = f"{self._api_endpoint}/{self._view_id}/{url_fragment}"
 
         try:
-            response = requests.patch(
-                url, headers=self._default_fullaccess_header, data=payload, timeout=REQUEST_TIMEOUT_SEC
-            )
+            response = requests.patch(url, headers=self._default_api_header, data=payload, timeout=REQUEST_TIMEOUT_SEC)
         except requests.RequestException as e:
             logger.error("%s: %s", url, e)
             return (False, None)
@@ -185,9 +183,7 @@ class GridlySocket:
         url = f"{self._api_endpoint}/{self._view_id}/{url_fragment}"
 
         try:
-            response = requests.put(
-                url, headers=self._default_fullaccess_header, data=payload, timeout=REQUEST_TIMEOUT_SEC
-            )
+            response = requests.put(url, headers=self._default_api_header, data=payload, timeout=REQUEST_TIMEOUT_SEC)
         except requests.RequestException as e:
             logger.error("%s [%s]: %s", url, debug_string, e)
             return (False, None)

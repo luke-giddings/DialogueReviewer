@@ -13,7 +13,7 @@ import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Final, NamedTuple, Protocol, TypedDict, TypeIs, cast, get_type_hints
+from typing import Final, NamedTuple, Protocol, TypedDict, TypeIs, cast, get_type_hints
 
 import pandas as pd
 
@@ -22,7 +22,7 @@ from _gridly_socket import GridlySocket
 
 logger = logging.getLogger(__name__)
 GRIDLY_COLUMN_CHARACTER: Final[str] = "column_CharacterName"
-GRIDLY_COLUMN_LANG_PREFIX: Final[tuple[str, ...]] = ("src_", "tg_")
+GRIDLY_COLUMN_LANG_PREFIX: Final[set[str]] = {"src_", "tg_"}
 
 
 @dataclass
@@ -107,12 +107,13 @@ class DialogueImporter:
             return results
 
         for gridly_line in gridly_results[1]:
-            if not _type_helpers.is_dict_str_any(gridly_line):
+            if not _type_helpers.is_dict_str_obj(gridly_line):
                 continue
 
             # convert gridly results into a dict
-            new_dialogue_line: dict[str, Any] = {}
-            new_dialogue_line["translations"] = {}
+            new_dialogue_line: dict[str, object] = {}
+            translations = dict[str, str]()
+            new_dialogue_line["translations"] = translations
             all_characters: list[str] = []
 
             if "id" in gridly_line:
@@ -121,18 +122,16 @@ class DialogueImporter:
                 new_dialogue_line = _extract_from_path(gridly_line["path"], new_dialogue_line)
             if "cells" in gridly_line:
                 cells = gridly_line["cells"]
-                if _type_helpers.is_list_any(cells):
+                if _type_helpers.is_list_obj(cells):
                     for cell in cells:
-                        if not _type_helpers.is_dict_str_any(cell):
+                        if not _type_helpers.is_dict_str_obj(cell):
                             continue
                         if "columnId" in cell and "value" in cell and isinstance(cell["columnId"], str):
-                            if cell["columnId"].startswith(GRIDLY_COLUMN_LANG_PREFIX[0]):
-                                language = cell["columnId"][len(GRIDLY_COLUMN_LANG_PREFIX[0]) :]
-                                new_dialogue_line["translations"][language] = cell["value"]
-                            elif cell["columnId"].startswith(GRIDLY_COLUMN_LANG_PREFIX[1]):
-                                language = cell["columnId"][len(GRIDLY_COLUMN_LANG_PREFIX[1]) :]
-                                new_dialogue_line["translations"][language] = cell["value"]
-                            elif cell["columnId"] == GRIDLY_COLUMN_CHARACTER:
+                            for lang_prefix in GRIDLY_COLUMN_LANG_PREFIX:
+                                if cell["columnId"].startswith(lang_prefix) and isinstance(cell["value"], str):
+                                    language = cell["columnId"][len(lang_prefix) :]
+                                    translations[language] = cell["value"]
+                            if cell["columnId"] == GRIDLY_COLUMN_CHARACTER:
                                 cell_value = cell["value"]
                                 if _type_helpers.is_list_str(cell_value):
                                     all_characters = cell_value
@@ -149,7 +148,6 @@ class DialogueImporter:
                     results.append(line)
                 else:
                     _log_missing_unknown_lines(char_converted_data, False, "?", _get_broken_fields_from_dict)
-                    continue
 
         return results
 
@@ -222,9 +220,9 @@ def _from_json(path: Path) -> list[DialogueLine]:
     results: list[DialogueLine] = []
     with open(path, encoding="utf-8") as file:
         data = json.load(file)
-        if not isinstance(data, list):
+        if not _type_helpers.is_list_obj(data):
             logger.error("Expected JSON array at top level, got %s", type(data).__name__)
-        return []
+            return []
         for json_line in data:
             if not _is_valid_from_dict(json_line):
                 _log_missing_unknown_lines(json_line, False, "???", _get_broken_fields_from_dict)
@@ -256,7 +254,7 @@ def _from_dataframe(dataframe: pd.DataFrame) -> list[DialogueLine]:
     return result
 
 
-def _extract_from_path(path: str, current_line: dict[str, Any]) -> dict[str, Any]:
+def _extract_from_path(path: str, current_line: dict[str, object]) -> dict[str, object]:
     """
     Extract game_area / chapter / scene / game_feature from a Gridly path.
 
@@ -267,7 +265,7 @@ def _extract_from_path(path: str, current_line: dict[str, Any]) -> dict[str, Any
     Returns:
         A copy of `current_line` with the extracted fields populated.
     """
-    result: dict[str, Any] = {**current_line}
+    result: dict[str, object] = {**current_line}
 
     paths = path.split("/")
     paths_len = len(paths)
@@ -279,7 +277,7 @@ def _extract_from_path(path: str, current_line: dict[str, Any]) -> dict[str, Any
 
     if paths_len > 2:
         result["scene"] = paths[2]
-    elif paths_len > 1 and result["chapter"].casefold() == "global":
+    elif paths_len > 1 and paths[1].casefold() == "global":
         result["scene"] = result["chapter"]
 
     if paths_len > 3:
@@ -290,13 +288,12 @@ def _extract_from_path(path: str, current_line: dict[str, Any]) -> dict[str, Any
     return result
 
 
-def _is_valid_from_tuple(tuple_line: Any) -> TypeIs[_DialogueRowTuple]:
+def _is_valid_from_tuple(tuple_line: object) -> TypeIs[_DialogueRowTuple]:
     """
     Return True if a tuple will be acceptable to convert via from_tuple().
     Params:
         tuple_line : The tuple to validate.
     """
-
     for key, key_type in _DIALOGUE_ROW_TUPLE_VAR_TYPES.items():
         if key not in _DIALOGUE_ROW_TUPLE_MANUAL_VERIFY_VARS and (
             not hasattr(tuple_line, key) or not isinstance(getattr(tuple_line, key), key_type)
@@ -304,33 +301,35 @@ def _is_valid_from_tuple(tuple_line: Any) -> TypeIs[_DialogueRowTuple]:
             return False
 
     has_language = False
-    for fieldname in tuple_line._fields:
-        if fieldname.startswith("text_"):
-            has_language = True
-            break
+    if isinstance(tuple_line, _type_helpers.HasFields):
+        for field_name in _type_helpers.get_fields(tuple_line):
+            if field_name.startswith("text_"):
+                has_language = True
+                break
     return has_language
 
 
-def _is_valid_from_dict(dict_line: Any) -> TypeIs[_DialogueRowDict]:
+def _is_valid_from_dict(dict_line: object) -> TypeIs[_DialogueRowDict]:
     """
     Return True if a dictionary will be acceptable to convert via from_dict().
     Params:
         dict_line : The dictionary to validate.
     """
-    if not _type_helpers.is_dict_str_any(dict_line):
+    if not _type_helpers.is_dict_str_obj(dict_line):
         return False
 
     for key, key_type in _DIALOGUE_ROW_DICT_VAR_TYPES.items():
         if key not in _DIALOGUE_ROW_DICT_MANUAL_VERIFY_VARS and not isinstance(dict_line.get(key), key_type):
             return False
 
-    if not _type_helpers.is_dict_str_str(dict_line.get("translations")):
+    translations = dict_line.get("translations")
+    if not _type_helpers.is_dict_str_str(translations):
         return False
 
-    return len(dict_line["translations"]) != 0
+    return len(translations) != 0
 
 
-def _log_missing_unknown_lines(data: Any, was_success: bool, data_id: str, fn: BrokenFieldsGetter) -> None:
+def _log_missing_unknown_lines(data: object, was_success: bool, data_id: str, fn: BrokenFieldsGetter) -> None:
     """
     Log any missing or unknown fields in the data structure against the current schema
     Params:
@@ -357,10 +356,10 @@ def _log_missing_unknown_lines(data: Any, was_success: bool, data_id: str, fn: B
 
 
 class BrokenFieldsGetter(Protocol):
-    def __call__(self, line: Any) -> tuple[list[str], list[str]]: ...
+    def __call__(self, line: object) -> tuple[list[str], list[str]]: ...
 
 
-def _get_broken_fields_from_tuple(line: Any) -> tuple[list[str], list[str]]:
+def _get_broken_fields_from_tuple(line: object) -> tuple[list[str], list[str]]:
     """
     Return field names that do not match the expected schema
     Params:
@@ -368,17 +367,17 @@ def _get_broken_fields_from_tuple(line: Any) -> tuple[list[str], list[str]]:
     Return:
         Tuple of lists of (missing, unknown) field names
     """
-    if not hasattr(line, "_fields"):
+    if not isinstance(line, _type_helpers.HasFields):
         return (["Does not have _fields.  All fields missing"], [])
 
-    fields = line._fields
+    fields = _type_helpers.get_fields(line)
     unexpected = [k for k in fields if k not in _DIALOGUE_ROW_TUPLE_VAR_TYPES and not k.startswith("text_")]
     missing = [k for k in _DIALOGUE_ROW_TUPLE_VAR_TYPES if k not in fields]
 
     return (missing, unexpected)
 
 
-def _get_broken_fields_from_dict(line: Any) -> tuple[list[str], list[str]]:
+def _get_broken_fields_from_dict(line: object) -> tuple[list[str], list[str]]:
     """
     Return field names that do not match the expected schema
      Params:
@@ -386,8 +385,8 @@ def _get_broken_fields_from_dict(line: Any) -> tuple[list[str], list[str]]:
      Return:
           Tuple of lists of (missing, unknown) field names
     """
-    if not _type_helpers.is_dict_str_any(line):
-        return (["Is not a dict[str, Any].  All fields missing"], [])
+    if not _type_helpers.is_dict_str_obj(line):
+        return (["Is not a dict[str, Obj].  All fields missing"], [])
 
     unexpected = [k for k in line if k not in _DIALOGUE_ROW_DICT_VAR_TYPES]
     missing = [k for k in _DIALOGUE_ROW_DICT_VAR_TYPES if k not in line]
