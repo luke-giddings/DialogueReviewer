@@ -14,7 +14,7 @@ def is_dict_str_str(test_dict: object) -> TypeIs[dict[str, str]]:
 
 
 def is_dict_str_obj(test_dict: object) -> TypeIs[dict[str, object]]:
-    """Return True if the type is dict with string keys. Value's type is not checked."""
+    """Return True if the type is dict with string keys. Value types are not checked."""
     if not isinstance(test_dict, dict):
         return False
     items = cast(dict[object, object], test_dict).items()
@@ -22,7 +22,7 @@ def is_dict_str_obj(test_dict: object) -> TypeIs[dict[str, object]]:
 
 
 def is_list_obj(test_list: object) -> TypeIs[list[object]]:
-    """Return True if the type is list. Element's type is not checked."""
+    """Return True if the type is list. Element types are not checked."""
     return isinstance(test_list, list)
 
 
@@ -36,9 +36,11 @@ def is_list_str(test_list: object) -> TypeIs[list[str]]:
 
 @runtime_checkable
 class HasFields(Protocol):
+    """Protocol to allow us to do strict type checking with objects that have _fields attributes."""
+
     _fields: tuple[str, ...]
 
 
 def get_fields(obj: HasFields) -> tuple[str, ...]:
-    """This function is to get around pylance complaining about using protected members outside their class"""
+    """This function is to get around Pylance complaining about using protected members outside their class."""
     return obj._fields  # pyright: ignore[reportPrivateUsage]

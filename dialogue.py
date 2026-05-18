@@ -28,7 +28,8 @@ GRIDLY_COLUMN_LANG_PREFIX: Final[set[str]] = {"src_", "tg_"}
 @dataclass
 class DialogueLine:
     """
-    A single dialogue line containing all the information associated with it: character speaking, translations and path information.
+    A single dialogue line containing all the information associated with it:
+        Character speaking, translations and path information.
     """
 
     character: str = ""
@@ -45,8 +46,8 @@ class DialogueLine:
     def from_tuple(cls, tuple_line: _DialogueRowTuple) -> DialogueLine:
         """
         Create a dialogue line from a _DialogueRowTuple.
-        Params:
-            tuple_line : The tuple to convert.
+        Args:
+            tuple_line: The tuple to convert.
         Returns:
             The new dialogue line.
         """
@@ -70,8 +71,8 @@ class DialogueLine:
     def from_dict(cls, dict_line: _DialogueRowDict) -> DialogueLine:
         """
         Create a dialogue line from a dictionary.
-        Params:
-            dict_line : The dictionary to convert.
+        Args:
+            dict_line: The dictionary to convert.
         Returns:
             The new dialogue line.
         """
@@ -119,7 +120,7 @@ class DialogueImporter:
             if "id" in gridly_line:
                 new_dialogue_line["id"] = gridly_line["id"]
             if "path" in gridly_line and isinstance(gridly_line["path"], str):
-                new_dialogue_line = _extract_from_path(gridly_line["path"], new_dialogue_line)
+                new_dialogue_line = _extract_from_gridly_path(gridly_line["path"], new_dialogue_line)
             if "cells" in gridly_line:
                 cells = gridly_line["cells"]
                 if _type_helpers.is_list_obj(cells):
@@ -147,7 +148,7 @@ class DialogueImporter:
                     )
                     results.append(line)
                 else:
-                    _log_missing_unknown_lines(char_converted_data, False, "?", _get_broken_fields_from_dict)
+                    _log_missing_unknown_lines(char_converted_data, False, "Unknown ID", _get_broken_fields_from_dict)
 
         return results
 
@@ -225,7 +226,7 @@ def _from_json(path: Path) -> list[DialogueLine]:
             return []
         for json_line in data:
             if not _is_valid_from_dict(json_line):
-                _log_missing_unknown_lines(json_line, False, "???", _get_broken_fields_from_dict)
+                _log_missing_unknown_lines(json_line, False, "Unknown ID", _get_broken_fields_from_dict)
                 continue
             line = DialogueLine.from_dict(json_line)
             _log_missing_unknown_lines(json_line, True, json_line["id"], _get_broken_fields_from_dict)
@@ -236,8 +237,8 @@ def _from_json(path: Path) -> list[DialogueLine]:
 def _from_dataframe(dataframe: pd.DataFrame) -> list[DialogueLine]:
     """
     Convert all the dialogue lines within a data frame.
-    Params:
-        dataframe : The DataFrame to convert.
+    Args:
+        dataframe: The DataFrame to convert.
     Returns:
         A list of the new dialogue lines.
     """
@@ -254,7 +255,7 @@ def _from_dataframe(dataframe: pd.DataFrame) -> list[DialogueLine]:
     return result
 
 
-def _extract_from_path(path: str, current_line: dict[str, object]) -> dict[str, object]:
+def _extract_from_gridly_path(path: str, current_line: dict[str, object]) -> dict[str, object]:
     """
     Extract game_area / chapter / scene / game_feature from a Gridly path.
 
@@ -262,6 +263,9 @@ def _extract_from_path(path: str, current_line: dict[str, object]) -> dict[str, 
     If the path collapses to two segments and the chapter is "Global" (case-insensitive),
     scene is set equal to chapter.
 
+    Args:
+        path: The Path of the Gridly dialogue line
+        current_line: The dialogue line
     Returns:
         A copy of `current_line` with the extracted fields populated.
     """
@@ -291,8 +295,8 @@ def _extract_from_path(path: str, current_line: dict[str, object]) -> dict[str, 
 def _is_valid_from_tuple(tuple_line: object) -> TypeIs[_DialogueRowTuple]:
     """
     Return True if a tuple will be acceptable to convert via from_tuple().
-    Params:
-        tuple_line : The tuple to validate.
+    Args:
+        tuple_line: The tuple to validate.
     """
     for key, key_type in _DIALOGUE_ROW_TUPLE_VAR_TYPES.items():
         if key not in _DIALOGUE_ROW_TUPLE_MANUAL_VERIFY_VARS and (
@@ -312,8 +316,8 @@ def _is_valid_from_tuple(tuple_line: object) -> TypeIs[_DialogueRowTuple]:
 def _is_valid_from_dict(dict_line: object) -> TypeIs[_DialogueRowDict]:
     """
     Return True if a dictionary will be acceptable to convert via from_dict().
-    Params:
-        dict_line : The dictionary to validate.
+    Args:
+        dict_line: The dictionary to validate.
     """
     if not _type_helpers.is_dict_str_obj(dict_line):
         return False
@@ -331,12 +335,12 @@ def _is_valid_from_dict(dict_line: object) -> TypeIs[_DialogueRowDict]:
 
 def _log_missing_unknown_lines(data: object, was_success: bool, data_id: str, fn: BrokenFieldsGetter) -> None:
     """
-    Log any missing or unknown fields in the data structure against the current schema
-    Params:
+    Log any missing or unknown fields in the data structure against the current schema.
+    Args:
         data: The structure to check
-        was_success: If the structure had been validated successfully.  If so, it won't have missing fields but might have unknown
-        data_id: an id to help identify the data when reading the log
-        fn: The function that can identify the missing or unknown fields
+        was_success: If the structure had been validated successfully.  If so, it won't have missing fields but might have unknown.
+        data_id: an id to help identify the data when reading the log.
+        fn: The function that can identify the missing or unknown fields.
     """
     missing, unknown = fn(data)
     num_missing = len(missing)
@@ -361,11 +365,11 @@ class BrokenFieldsGetter(Protocol):
 
 def _get_broken_fields_from_tuple(line: object) -> tuple[list[str], list[str]]:
     """
-    Return field names that do not match the expected schema
-    Params:
-        tuple_line: Tuple to test
-    Return:
-        Tuple of lists of (missing, unknown) field names
+    Return field names that do not match the expected schema.
+    Args:
+        line: Tuple to test.
+    Returns:
+        Tuple of lists of (missing, unknown) field names.
     """
     if not isinstance(line, _type_helpers.HasFields):
         return (["Does not have _fields.  All fields missing"], [])
@@ -379,11 +383,11 @@ def _get_broken_fields_from_tuple(line: object) -> tuple[list[str], list[str]]:
 
 def _get_broken_fields_from_dict(line: object) -> tuple[list[str], list[str]]:
     """
-    Return field names that do not match the expected schema
-     Params:
-         dict_line: Dictionary to test
-     Return:
-          Tuple of lists of (missing, unknown) field names
+    Return field names that do not match the expected schema.
+    Args:
+        line: Dictionary to test.
+    Returns:
+        Tuple of lists of (missing, unknown) field names.
     """
     if not _type_helpers.is_dict_str_obj(line):
         return (["Is not a dict[str, Obj].  All fields missing"], [])
