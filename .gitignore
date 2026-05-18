@@ -46,3 +46,4 @@ desktop.ini
 # output/
 # reports/
 logs/
+test_data/sample_library_cpy.json

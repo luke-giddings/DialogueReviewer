@@ -1,0 +1,148 @@
+{
+  "version": 1,
+  "language": "1",
+  "biblesXX": {
+    "Marlow": {
+      "name": "Mayor Halsey",
+      "summary": "Mayor of a Frontier settlement. Officially welcoming, in practice transactional and evasive. Hides self-interest behind political formality.",
+      "voice": {
+        "register": "formal, careful",
+        "tone": "outwardly cordial, inwardly evasive",
+        "vocabulary_notes": "favours bureaucratic euphemisms ('arrangements', 'considerations'); rarely commits to specifics"
+      },
+      "speech_patterns": [
+        "Uses ellipses to suggest unspoken complications",
+        "Repeats short phrases for emphasis ('Of course. Of course.')",
+        "Softens demands with qualifiers ('naturally', 'certain')",
+        "Avoids giving direct answers to direct questions"
+      ],
+      "will_do": [
+        "Address travellers with deliberate courtesy",
+        "Frame financial demands as 'arrangements' or 'considerations'",
+        "Use silence and incomplete sentences as social tools"
+      ],
+      "wont_do": [
+        "State a price outright",
+        "Use slang or profanity",
+        "Show emotion openly",
+        "Speak in short blunt sentences"
+      ],
+      "example_lines": [
+        "Welcome, travellers. Frontier hospitality requires that we... discuss arrangements.",
+        "Of course. Of course. There are, naturally, certain... considerations."
+      ],
+      "notes": "Compare with Marlow as a foil: Halsey is verbose where Marlow is terse, evasive where Marlow is blunt.",
+      "scene_info": {
+        "Market": {
+          "mood": "calculating",
+          "emotional_state": "Sizing up the travellers; weighing how much he can extract without appearing greedy.",
+          "notes": "First on-screen encounter. Establishes the transactional nature of Frontier 'hospitality'.",
+          "generated": false,
+          "generated_at": "2026-05-15T12:00:00",
+          "content_hash": ""
+        }
+      }
+    },
+    "Marlow": {
+      "name": "Marlow",
+      "summary": "Ex-soldier turned smuggler. Reluctant protector of Cora. Treats every interaction as a negotiation he'd rather avoid.",
+      "voice": {
+        "register": "blunt, working-class",
+        "tone": "world-weary, dryly cynical",
+        "vocabulary_notes": "no flowery words; military slang where natural; contractions only ('he'll', 'it's')"
+      },
+      "speech_patterns": [
+        "Rarely more than one short sentence per turn",
+        "Answers questions with single nouns ('Money.')",
+        "Cuts to the point; no warm-up or pleasantries",
+        "Will use silence when speech serves no purpose"
+      ],
+      "will_do": [
+        "Use clipped, declarative sentences",
+        "Cut through formality to the underlying transaction",
+        "Soften slightly when speaking with Cora alone"
+      ],
+      "wont_do": [
+        "Use exclamation marks",
+        "Use flowery or academic vocabulary",
+        "Engage with political formality on its own terms",
+        "Show enthusiasm"
+      ],
+      "example_lines": [
+        "Get to the point.",
+        "Money.",
+        "He'll let anyone stay who can pay.",
+        "No. But it's enough."
+      ],
+      "notes": "Foil to Halsey (terse vs verbose). Subtler relationship with Cora — slightly more verbose, slightly less guarded when alone with her.",
+      "scene_info": {
+        "Market": {
+          "mood": "guarded",
+          "emotional_state": "Wary of the Mayor's hospitality; reading the situation as a shakedown wrapped in pleasantries.",
+          "notes": "Marlow is at his most clipped here. Doesn't trust the Mayor or the welcome.",
+          "generated": false,
+          "generated_at": "2026-05-15T12:00:00",
+          "content_hash": ""
+        },
+        "Camp": {
+          "mood": "softening",
+          "emotional_state": "Lowering his guard alone with Cora. Still terse but more willing to engage with her hope.",
+          "notes": "Contrast with the Market scene — same character, more open. His 'No. But it's enough.' shows a small concession to Cora's view.",
+          "generated": false,
+          "generated_at": "2026-05-15T12:00:00",
+          "content_hash": ""
+        }
+      }
+    },
+    "Cora": {
+      "name": "Cora",
+      "summary": "Younger companion to Marlow. Optimistic, mediating, articulate. Reads people more carefully than her warmth lets on.",
+      "voice": {
+        "register": "warm, articulate",
+        "tone": "hopeful, conciliatory",
+        "vocabulary_notes": "full sentences with conjunctions ('what he means is, ...'); avoids slang"
+      },
+      "speech_patterns": [
+        "Often paraphrases or softens what Marlow has said curtly",
+        "Asks open questions to invite responses",
+        "Reflective rather than declarative",
+        "Acknowledges complexity rather than collapsing it to yes or no"
+      ],
+      "will_do": [
+        "Translate Marlow's bluntness into something more palatable to others",
+        "Voice hope or possibility even after a setback",
+        "Acknowledge the other person's perspective before disagreeing"
+      ],
+      "wont_do": [
+        "Match Marlow's cynicism",
+        "Use single-word responses",
+        "Speak harshly to strangers"
+      ],
+      "example_lines": [
+        "What he means is, we'd be grateful for somewhere to rest.",
+        "We can pay. Within reason.",
+        "Do you think he'll let us stay?",
+        "That's not the same as being welcome."
+      ],
+      "notes": "Counterweight to Marlow. Note her line 'That's not the same as being welcome' — she's softer in tone but no less sharp in observation.",
+      "scene_info": {
+        "Market": {
+          "mood": "diplomatic",
+          "emotional_state": "Aware of the transactional subtext; trying to keep the encounter civil and productive.",
+          "notes": "Mediates between Marlow's terseness and the Mayor's formality. Sees more than she says.",
+          "generated": false,
+          "generated_at": "2026-05-15T12:00:00",
+          "content_hash": ""
+        },
+        "Camp": {
+          "mood": "reflective",
+          "emotional_state": "Processing the Market encounter; uncertain whether they're welcome or merely tolerated.",
+          "notes": "Pushes Marlow on the distinction between paying and being welcome. Quietly makes the moral point of the scene.",
+          "generated": false,
+          "generated_at": "2026-05-15T12:00:00",
+          "content_hash": ""
+        }
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ from typing import Protocol, TypeIs, cast, runtime_checkable
 
 
 def is_dict_str_str(test_dict: object) -> TypeIs[dict[str, str]]:
-    """Return True if the type is dict with string keys and string values."""
+    """Return True if the type is a dict with string keys and string values."""
     if not isinstance(test_dict, dict):
         return False
     items = cast(dict[object, object], test_dict).items()
@@ -14,7 +14,7 @@ def is_dict_str_str(test_dict: object) -> TypeIs[dict[str, str]]:
 
 
 def is_dict_str_obj(test_dict: object) -> TypeIs[dict[str, object]]:
-    """Return True if the type is dict with string keys. Value types are not checked."""
+    """Return True if the type is a dict with string keys. Value types are not checked."""
     if not isinstance(test_dict, dict):
         return False
     items = cast(dict[object, object], test_dict).items()
@@ -22,12 +22,12 @@ def is_dict_str_obj(test_dict: object) -> TypeIs[dict[str, object]]:
 
 
 def is_list_obj(test_list: object) -> TypeIs[list[object]]:
-    """Return True if the type is list. Element types are not checked."""
+    """Return True if the type is a list. Element types are not checked."""
     return isinstance(test_list, list)
 
 
 def is_list_str(test_list: object) -> TypeIs[list[str]]:
-    """Return True if the type is list of strings."""
+    """Return True if the type is a list of strings."""
     if not isinstance(test_list, list):
         return False
     test_list = cast(list[object], test_list)
